@@ -106,36 +106,88 @@
 //   }
 // }
 
+// import 'package:firebase_auth/firebase_auth.dart';
+// import 'package:firebase_core/firebase_core.dart';
+// import 'package:flutter/material.dart';
+// import 'package:flutter_bloc/flutter_bloc.dart';
+// import 'package:userphin/codilogin/login-bloc/login_bloc.dart';
+// import 'package:userphin/codilogin/pages/login.dart';
+// import 'package:userphin/codilogin/pages/regis.dart';
+// import 'package:userphin/firebase_options.dart';
+
+// void main() async {
+//   WidgetsFlutterBinding.ensureInitialized();
+//   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+// final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
+
+//   runApp(MyApp(authBloc: AuthBloc(_firebaseAuth)));
+// }
+
+// class MyApp extends StatelessWidget {
+//   final AuthBloc authBloc;
+//  MyApp({required this.authBloc});
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return MaterialApp(
+//       title: 'Authentication Example',
+//       theme: ThemeData(primarySwatch: Colors.blue),
+//       home: MultiBlocProvider(
+//         providers: [
+//           BlocProvider(create: (context) => authBloc),
+//           //BlocProvider<AuthBloc>(create: (context) =>AuthBloc())
+//         ],
+//         child:LoginScreen(authBloc),
+//       ),
+//     );
+//   }
+// }
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:userphin/codilogin/bloc/auth_bloc.dart';
+import 'package:userphin/codilogin/login-bloc/login_bloc.dart';
 import 'package:userphin/codilogin/pages/login.dart';
 import 'package:userphin/codilogin/pages/regis.dart';
+import 'package:userphin/codilogin/register-bloc/register_bloc.dart';
 import 'package:userphin/firebase_options.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
+  final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
 
-  runApp(MyApp(authBloc: AuthBloc(_firebaseAuth)));
+  runApp(MyApp(loginBloc: LoginBloc(_firebaseAuth) , registerBloc: RegisterBloc(_firebaseAuth),));
 }
 
 class MyApp extends StatelessWidget {
-  final AuthBloc authBloc;
- MyApp({required this.authBloc});
+  final LoginBloc loginBloc;
+  final RegisterBloc registerBloc;
+  MyApp({required this.loginBloc , required this.registerBloc});
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Authentication Example',
       theme: ThemeData(primarySwatch: Colors.blue),
-      home: BlocProvider(
-        create: (context) => authBloc,
-        child:RegisterScreen(authBloc),
+      home: MultiBlocProvider(
+        providers: [
+          BlocProvider(create: (context) => loginBloc),
+           BlocProvider(create: (context) => registerBloc), // Add this lin
+        ],
+        child: RegisterScreen(registerBloc),
       ),
+      routes: {
+        '/login': (context) => BlocProvider.value(
+              value: loginBloc,
+              child: LoginScreen(loginBloc),
+            ),
+        '/register': (context) => BlocProvider.value(
+              value: registerBloc,
+              child: RegisterScreen(registerBloc),
+            ),
+      },
     );
   }
 }

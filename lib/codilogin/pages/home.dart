@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -6,7 +7,22 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(child: Text("Hola mundo"),),
+      body: Row(
+        children: [
+            Center(
+            child: Text("Hola mundo"),
+            ),
+            ElevatedButton(
+  child: Text('Cerrar sesión'),
+  onPressed: () async {
+    await FirebaseAuth.instance.signOut();
+    Navigator.pushNamed(context, '/login');
+  },
+)
+
+          ],
+      ),
+        
     );
   }
 }

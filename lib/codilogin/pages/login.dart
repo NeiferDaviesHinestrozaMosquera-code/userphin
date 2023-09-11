@@ -1,25 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:userphin/codilogin/bloc/auth_bloc.dart';
+import 'package:userphin/codilogin/login-bloc/login_bloc.dart';
 import 'package:userphin/codilogin/pages/home.dart';
 
 class LoginScreen extends StatelessWidget {
-  final AuthBloc authBloc;
-
-  LoginScreen(this.authBloc);
-
+  final LoginBloc loginBloc;
+  LoginScreen(this.loginBloc);
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Login')),
-      body: BlocConsumer<AuthBloc, AuthState>(
+      appBar: AppBar(title: Text('Login'),  automaticallyImplyLeading: false,
+),
+      body: BlocConsumer<LoginBloc, LoginState>(
         builder: (context, state) {
-          if (state is AuthLoading) {
+          if (state is LoginLoading) {
             return Center(child: CircularProgressIndicator());
-          } else if (state is AuthFailure) {
+          } else if (state is LoginFailure) {
             return Center(child: Text(state.error));
           } else {
             return Container(
@@ -40,20 +39,29 @@ class LoginScreen extends StatelessWidget {
                   ElevatedButton(
                     child: Text('Login'),
                     onPressed: () {
-                      authBloc.add(LoginEvent(
-                        _emailController.text,
-                        _passwordController.text,
-                      ));
+                      loginBloc.add( // Changed from authBloc to loginBloc
+                        LoginEvent(
+                          _emailController.text,
+                          _passwordController.text,
+                        ),
+                      );
                     },
                   ),
+                   ElevatedButton(
+                    style: ButtonStyle(),
+                    onPressed: () {
+                     Navigator.pushNamed(context, '/register');
+                    },
+                    child: Text("Register")
+                  )
                 ],
               ),
             );
           }
         },
         listener: (context, state) {
-          if (state is AuthLoggedIn) {
-            // Navegar a la pantalla principal después de iniciar sesión con éxito
+          if (state is LoginLoggedIn) {
+            // Navigate to the main screen after successfully logging in
             Navigator.push(
               context,
               MaterialPageRoute(builder: (context) => HomeScreen()),
