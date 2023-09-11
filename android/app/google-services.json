@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "335700159514",
+    "project_id": "userphin827",
+    "storage_bucket": "userphin827.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:335700159514:android:1453eb4b4c523a21cc35a3",
+        "android_client_info": {
+          "package_name": "com.example.userphin"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "335700159514-viellfhes7ljscnik9fvrd3s9qumlhjp.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBkEhSlbopVjnD7QoyY7BQ57ymbEoAzDoI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "335700159514-viellfhes7ljscnik9fvrd3s9qumlhjp.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
